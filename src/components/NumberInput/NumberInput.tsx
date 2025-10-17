@@ -1,0 +1,15 @@
+import type { FC } from "react";
+
+export interface NumberInputProps {
+    readonly id?: string;
+    readonly value: number;
+    onChange(value: number): void;
+}
+
+export const NumberInput: FC<NumberInputProps> = props => {
+  return (
+    <input
+      id={props.id}
+      type="number" value={props.value} onChange={(ev => props.onChange(ev.target.valueAsNumber))} />
+  );
+};
