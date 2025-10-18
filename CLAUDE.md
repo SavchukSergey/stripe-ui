@@ -4,80 +4,95 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a React-based Stripe UI application that provides a browser interface for viewing Stripe products and prices. The application uses the Stripe Node.js SDK to interact with the Stripe API directly from the browser.
+A React-based UI for managing Stripe products and prices. The application uses the Stripe Node.js SDK client-side to interact directly with Stripe's API (requires a Stripe API key stored in localStorage).
 
-## Build Commands
+## Development Commands
 
-- **Development server**: `npm run dev` - Starts Vite dev server with HMR
-- **Build**: `npm run build` - Type checks with `tsc -b` then builds with Vite
-- **Lint**: `npm run lint` - Runs ESLint on the codebase
-- **Preview**: `npm run preview` - Preview production build locally
+```bash
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run ESLint
+npm run lint
+
+# Preview production build
+npm run preview
+```
 
 ## Architecture
 
 ### Stripe API Integration
 
-The application uses a unique architecture where the Stripe Node.js SDK runs directly in the browser:
+- **StripeContext**: Provides the Stripe API instance throughout the app (src/context/StripeContext.ts)
+- **API Key Storage**: Stripe API key is stored in localStorage under key `STRIPE_KEY`
+- **useStripeKey hook**: Reactive hook that syncs with localStorage changes (src/hooks/useStripeKey.ts)
+- **useStripeApi hook**: Generic hook for calling Stripe API methods with promise-based state management (src/hooks/useStripeApi.ts)
+- The Stripe instance is initialized in App.tsx:1-40 and provided via React Context
 
-- **StripeContext** (src/context/StripeContext.ts): React Context that provides the Stripe instance throughout the app
-- **useStripeKey** (src/hooks/useStripeKey.ts): Manages the Stripe API key in localStorage under the key "STRIPE_KEY"
-- **useStripeApi** (src/hooks/useStripeApi.ts): Core hook that wraps Stripe API calls with promise handling
+### State Management Patterns
 
-The Stripe API key is stored in localStorage and can be configured via the StripeSettings component (floating settings panel).
+- **usePromise hook**: Centralized promise state management returning `{ loading, data, error }` (src/hooks/usePromise.ts)
+- **useLocalStorage hook**: Reactive localStorage hook with storage event listener (src/hooks/useLocalStorage.ts)
+- All Stripe API calls follow the pattern: `useStripeApi(callback)` where callback receives the Stripe instance
 
-### Data Flow Pattern
+### Custom Hooks for Stripe Operations
 
-The codebase follows a consistent Container/Presentation pattern:
+Data fetching hooks (all use useStripeApi):
+- `useProductsList`: Fetch all products
+- `useProductDetails`: Fetch single product by ID
+- `usePricesList`: Fetch prices for a product
+- `usePriceDetails`: Fetch single price by ID
 
-1. **Container components** (e.g., `ProductsListContainer`) handle data fetching using specialized hooks
-2. **Custom hooks** (e.g., `useProductsList`, `useProductDetails`, `usePricesList`, `usePriceDetails`) fetch data via `useStripeApi`
-3. **useStripeApi** combines the StripeContext with `usePromise` to handle async state
-4. **usePromise** (src/hooks/usePromise.ts): Simple hook that converts a Promise to React state
-5. **Presentation components** receive data as props and render UI
+Mutation hooks (return callback functions):
+- `useProductCreate`: Create products
+- `usePriceCreate`: Create prices
+- `usePriceUpdate`: Update prices
 
-All data-fetching hooks follow this pattern:
-```typescript
-const request = useCallback((stripe: Stripe) => stripe.products.list(), []);
-return useStripeApi(request);
-```
+### Routing Structure
 
-### Routing
+All routes defined in src/App.tsx:26-31:
+- `/products` - Products list page
+- `/products/new` - Create new product
+- `/products/:productId` - Product details page
+- `/products/:productId/prices/new` - Create new price for a product
+- `/products/:productId/prices/:priceId` - Price details page
 
-React Router v7 is used with three main routes:
-- `/` - Products list
-- `/products/:productId` - Product details with associated prices
-- `/products/:productId/prices/:priceId` - Price details
+### Component Organization
 
-### Component Structure
+- **Container Pattern**: Components ending in `Container` handle data fetching and state, then pass data to presentation components
+  - Example: `ProductDetailsContainer` fetches data, `ProductDetails` renders it
+- **Form Components**: `ProductForm` and `PriceForm` are controlled components that receive value/onChange/onSubmit props
+- **Field Components**: Reusable form fields following a consistent pattern (TextField, PriceField, CurrencyField, LookupKeyField, CheckboxField)
+- Each component has its own directory with .tsx and .scss files
 
-- **Form components**: Located in src/components/Form/, src/components/Button/
-- **Input components**: Various specialized inputs (TextInput, NumberInput, CurrencyInput, PriceInput, LookupKeyInput)
-- **Field components**: Wrapper components that combine inputs with FormFieldLayout (TextField, CurrencyField, PriceField, LookupKeyField)
-- **Display components**: Components for rendering Stripe data (PriceSpan, RecurrencySpan, DateSpan, ProductLink, PriceLink)
-- **Container components**: Named with "Container" suffix, handle data fetching and loading states
+### Key Implementation Details
+
+- **Price Form Modes**: PriceForm has "create" vs "update" mode - certain fields are read-only after creation (unit_amount, currency, active)
+- **Product ID Extraction**: Use `getProductId` utility (src/utils/getProductId.ts) to extract product ID from Stripe Price objects
+- **HTML IDs**: Use `useHtmlId` hook for generating unique form element IDs
 
 ### Styling
 
-- Uses SASS for component styling (sass-embedded package)
-- Component-scoped SCSS files (e.g., Button.scss, FieldSet.scss)
-- Global styles in src/index.css
+- SASS/SCSS for styling with embedded Sass compiler
+- Each component has co-located .scss file
+- Global styles in src/index.css and src/App.scss
 
-### Technology Stack
+### Code Style (ESLint Rules)
 
-- **Build tool**: Vite (using rolldown-vite variant for faster builds)
+- 2-space indentation
+- Double quotes for strings
+- Semicolons required
+- Unix line endings
+- No trailing spaces
+- No multiple empty lines
+
+## Tech Stack
+
+- **Build Tool**: Vite (using rolldown-vite variant)
 - **Framework**: React 19 with TypeScript
-- **Routing**: React Router v7
-- **Stripe**: stripe Node.js SDK (v19) running in browser
-- **Styling**: SASS with embedded compiler
-
-### Local Storage
-
-The application uses localStorage for:
-- **STRIPE_KEY**: Stores the Stripe API secret key
-- useLocalStorage hook (src/hooks/useLocalStorage.ts) provides reactive localStorage access with cross-tab synchronization via storage events
-
-## Important Notes
-
-- The Stripe secret key is stored client-side in localStorage, so this application is intended for development/testing purposes only
-- Container components show LoadingPanel while data is being fetched
-- All Stripe API calls go through the useStripeApi hook pattern
+- **Routing**: react-router-dom v7
+- **Stripe SDK**: stripe Node.js SDK (used client-side)
+- **Styling**: SASS/SCSS with sass-embedded

@@ -14,6 +14,7 @@ export const PricesList: FC<PricesListProps> = props => {
     <table>
       <thead>
         <tr>
+          <th>Id</th>
           <th>Price</th>
           <th>Recurrency Period</th>
           <th>Lookup Key</th>

@@ -2,9 +2,13 @@ import type { FC, PropsWithChildren } from "react";
 
 import "./FieldSet.scss";
 
-export const FieldSet: FC<PropsWithChildren> = props => {
+export interface FieldSetProps {
+  readonly className?: string;
+}
+
+export const FieldSet: FC<PropsWithChildren<FieldSetProps>> = props => {
   return (
-    <fieldset className="fieldset">
+    <fieldset className={`fieldset ${props.className || ""}`}>
       {props.children}
     </fieldset>
   );

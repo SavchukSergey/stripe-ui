@@ -1,0 +1,15 @@
+﻿.layout {
+  display: flex;
+  gap: 16px;
+
+  &__sidebar {
+    flex: 0 1 256px;
+  }
+
+  &__content {
+    flex: 2 1 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,19 @@
+﻿.form-field-layout {
+  display: flex;
+  gap: 16px;
+
+  $this: &;
+
+  &--vertical {
+    flex-direction: column;
+  }
+
+  &--horizontal {
+    flex-direction: row;
+
+    #{$this}__label {
+      flex: 0 0 160px;
+    }
+  }
+
+}

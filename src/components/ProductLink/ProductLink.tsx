@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import type Stripe from "stripe";
 
 export interface ProductLinkProps {
-    readonly product: Stripe.Product;
+  readonly product: Stripe.Product;
 }
 
 export const ProductLink: FC<ProductLinkProps> = props => {

@@ -9,6 +9,11 @@
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
   },
+  "[typescriptreact]": {
+    "files.eol": "\n",
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+  },
   "[html]": {
     "files.eol": "\n",
     "editor.tabSize": 2,

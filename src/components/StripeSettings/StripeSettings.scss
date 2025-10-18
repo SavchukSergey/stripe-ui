@@ -1,0 +1,12 @@
+﻿.stripe-settings {
+  margin-top: auto;
+
+  &__fields {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+}

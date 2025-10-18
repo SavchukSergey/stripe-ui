@@ -5,6 +5,8 @@ import { FieldSet } from "../FieldsSet/FieldsSet";
 import { Form } from "../Form/Form";
 import { TextField } from "../TextField/TextField";
 
+import "./StripeSettings.scss";
+
 export const StripeSettings: FC = () => {
 
   const [key, setKey] = useState(getStripeKey());
@@ -14,9 +16,9 @@ export const StripeSettings: FC = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} >
-      <FieldSet>
-        <TextField label="Stripe Key" value={key || ""} onChange={setKey} />
+    <Form onSubmit={handleSubmit} className="stripe-settings">
+      <FieldSet className="stripe-settings__fields">
+        <TextField label="Stripe Key" value={key || ""} onChange={setKey} layout="horizontal" />
         <Button type="submit">Set</Button>
       </FieldSet>
     </Form>

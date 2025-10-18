@@ -1,13 +1,13 @@
 import type { FC } from "react";
-import { Link } from "react-router-dom";
 import type Stripe from "stripe";
+import { Link } from "../Link/Link";
 
 export interface PriceLinkProps {
-    readonly price: Stripe.Price;
+  readonly price: Stripe.Price;
 }
 
 export const PriceLink: FC<PriceLinkProps> = props => {
   return (
-    <Link to={`/products/${props.price.product}/prices/${props.price.id}`}>{props.price.id}</Link>
+    <Link to={`/products/${props.price.product}/prices/${props.price.id}`}>{props.price.nickname || props.price.id}</Link>
   );
 };

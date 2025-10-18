@@ -1,15 +1,19 @@
 import type { FC } from "react";
 
 export interface NumberInputProps {
-    readonly id?: string;
-    readonly value: number;
-    onChange(value: number): void;
+  readonly id?: string;
+  readonly value: number;
+  onChange(value: number): void;
+  readonly readOnly?: boolean;
 }
 
 export const NumberInput: FC<NumberInputProps> = props => {
   return (
     <input
       id={props.id}
-      type="number" value={props.value} onChange={(ev => props.onChange(ev.target.valueAsNumber))} />
+      type="number" value={props.value}
+      onChange={(ev => props.onChange(ev.target.valueAsNumber))}
+      readOnly={props.readOnly}
+    />
   );
 };
