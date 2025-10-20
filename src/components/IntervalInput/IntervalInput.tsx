@@ -13,6 +13,7 @@ export const IntervalInput: FC<IntervalInputProps> = props => {
     <select
       id={props.id}
       value={props.value}
+      className="form-select"
       onChange={(ev => props.onChange(ev.target.value as Stripe.Price.Recurring.Interval))}
       disabled={props.readOnly}
     >

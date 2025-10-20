@@ -1,17 +1,19 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
+import { ActiveCell } from "../ActiveCell/ActiveCell";
 import { DateSpan } from "../DateSpan/DateSpan";
 import { PriceLink } from "../PriceLink/PriceLink";
 import { PriceSpan } from "../PriceSpan/PriceSpan";
 import { RecurrencySpan } from "../RecurrencySpan/RecurrencySpan";
+import { Table } from "../Table/Table";
 
 export interface PricesListProps {
-    readonly prices: readonly Stripe.Price[];
+  readonly prices: readonly Stripe.Price[];
 }
 
 export const PricesList: FC<PricesListProps> = props => {
   return (
-    <table>
+    <Table>
       <thead>
         <tr>
           <th>Id</th>
@@ -34,12 +36,12 @@ export const PricesList: FC<PricesListProps> = props => {
                 <RecurrencySpan recurring={price.recurring!} />}
             </td>
             <td>{price.lookup_key || "-"}</td>
-            <td>{price.active ? "Yes" : "No"}</td>
+            <ActiveCell value={price.active} />
             <td><DateSpan value={price.created} /></td>
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 

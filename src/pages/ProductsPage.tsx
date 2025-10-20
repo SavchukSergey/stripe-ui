@@ -7,6 +7,7 @@ export const ProductsPage: FC = () => {
 
   return (
     <CommonPage>
+      <h1>Products</h1>
       <ProductsListContainer />
       <Link to="/products/new">Create product</Link>
     </CommonPage>

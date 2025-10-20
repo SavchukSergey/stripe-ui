@@ -11,6 +11,7 @@ export const CheckboxInput: FC<CheckboxInputProps> = props => {
   return (
     <input
       id={props.id}
+      className="form-check-input"
       type="checkbox" checked={props.value}
       onChange={(ev => props.onChange(ev.target.checked))}
       readOnly={props.readOnly}

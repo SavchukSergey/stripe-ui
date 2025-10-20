@@ -1,14 +1,15 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
 import { ProductLink } from "../ProductLink/ProductLink";
+import { Table } from "../Table/Table";
 
 export interface ProductsListProps {
-    readonly products: readonly Stripe.Product[];
+  readonly products: readonly Stripe.Product[];
 }
 
 export const ProductsList: FC<ProductsListProps> = props => {
   return (
-    <table>
+    <Table>
       <tbody>
         {props.products.map(product => (
           <tr key={product.id}>
@@ -18,7 +19,7 @@ export const ProductsList: FC<ProductsListProps> = props => {
           </tr>
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 

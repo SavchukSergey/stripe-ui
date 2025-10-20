@@ -17,7 +17,7 @@ export const CurrencyField: FC<CurrencyFieldProps> = props => {
   return (
     <FormFieldLayout label={props.label || "Currency"} id={id} layout={props.layout}>
       {props.readOnly ?
-        props.value :
+        <div className="form-control-plaintext">{props.value}</div> :
         <CurrencyInput id={id} value={props.value} onChange={props.onChange} readOnly={props.readOnly} />
       }
     </FormFieldLayout>

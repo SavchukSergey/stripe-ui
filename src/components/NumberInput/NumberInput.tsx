@@ -11,6 +11,7 @@ export const NumberInput: FC<NumberInputProps> = props => {
   return (
     <input
       id={props.id}
+      className="form-control"
       type="number" value={props.value}
       onChange={(ev => props.onChange(ev.target.valueAsNumber))}
       readOnly={props.readOnly}

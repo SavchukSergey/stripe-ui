@@ -16,8 +16,7 @@ export const PriceField: FC<PriceFieldProps> = props => {
 
   return (
     <FormFieldLayout label={props.label || "Price"} id={id} layout={props.layout}>
-      {props.readOnly ?
-        props.value :
+      {props.readOnly ? <div className="form-control-plaintext">{(props.value / 100).toFixed(2)}</div> :
         <PriceInput id={id} value={props.value} onChange={props.onChange} readOnly={props.readOnly} />
       }
     </FormFieldLayout>

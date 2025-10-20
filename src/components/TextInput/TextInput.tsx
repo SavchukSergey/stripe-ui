@@ -11,6 +11,7 @@ export const TextInput: FC<TextInputProps> = props => {
   return (
     <input
       id={props.id}
+      className="form-control"
       type="text" value={props.value}
       onChange={(ev => props.onChange(ev.target.value))}
       readOnly={props.readOnly}

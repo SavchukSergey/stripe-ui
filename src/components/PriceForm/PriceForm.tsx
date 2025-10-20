@@ -33,19 +33,21 @@ export const PriceForm: FC<PriceFormProps> = props => {
         <PriceField value={value.unit_amount || 0} onChange={newVal => onChange({ ...value, unit_amount: newVal })} readOnly={props.mode !== "create"} layout="horizontal" />
         <CurrencyField value={value.currency || ""} onChange={newVal => onChange({ ...value, currency: newVal })} readOnly={props.mode !== "create"} layout="horizontal" />
 
-        <CheckboxField
-          label="Enable recurrency"
-          value={!!value.recurring}
-          onChange={newValue => onChange({ ...value, recurring: newValue ? EMPTY_RECURRING_TEMPLATE : null })}
-          readOnly={props.mode !== "create"} layout="horizontal" />
-        {value.recurring &&
-          <RecurrencyField value={value.recurring} onChange={newVal => onChange({ ...value, recurring: newVal })} readOnly={props.mode !== "create"} layout="horizontal" />
-        }
+
+        {props.mode === "create" && (
+          <CheckboxField
+            label="Enable recurrency"
+            value={!!value.recurring}
+            onChange={newValue => onChange({ ...value, recurring: newValue ? EMPTY_RECURRING_TEMPLATE : null })}
+            readOnly={props.mode !== "create"} layout="horizontal" />
+        )}
+
+        <RecurrencyField value={value.recurring} onChange={newVal => onChange({ ...value, recurring: newVal })} readOnly={props.mode !== "create"} layout="horizontal" />
 
         <CheckboxField label="Active" value={value.active} onChange={newVal => onChange({ ...value, active: newVal })} layout="horizontal" />
       </FieldSet>
       <EntityActions />
-    </Form>
+    </Form >
   );
 };
 

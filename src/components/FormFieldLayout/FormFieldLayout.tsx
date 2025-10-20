@@ -16,7 +16,7 @@ export const FormFieldLayout: FC<PropsWithChildren<FormFieldLayoutProps>> = prop
 
   return (
     <div className={`form-field-layout form-field-layout--${type}`}>
-      <label htmlFor={props.id} className="form-field-layout__label">
+      <label htmlFor={props.id} className="col-form-label form-field-layout__label">
         {props.label}
       </label>
       <div>

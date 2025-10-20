@@ -15,6 +15,10 @@ export const RecurrencyInput: FC<RecurrencyInputProps> = props => {
 
   const { value, onChange } = props;
 
+  if (props.readOnly) {
+    return `Every ${value.interval_count} ${value.interval}`;
+  }
+
   return (
     <FieldSet>
       <IntervalField label="Interval" value={value.interval} onChange={newValue => onChange({ ...value, interval: newValue })} readOnly={props.readOnly} layout="horizontal" />
