@@ -9,6 +9,12 @@ import { NewProductPricePage } from "./pages/NewProductPricePage";
 import { PriceDetailsPage } from "./pages/PriceDetailsPage";
 import { ProductDetailsPage } from "./pages/ProductDetailsPage";
 import { ProductsPage } from "./pages/ProductsPage";
+import { CustomersPage } from "./pages/CustomersPage";
+import { CustomerDetailsPage } from "./pages/CustomerDetailsPage";
+import { NewCustomerPage } from "./pages/NewCustomerPage";
+import { SubscriptionsPage } from "./pages/SubscriptionsPage";
+import { SubscriptionDetailsPage } from "./pages/SubscriptionDetailsPage";
+import { NewSubscriptionPage } from "./pages/NewSubscriptionPage";
 import { Layout } from "./components/Layout/Layout";
 
 import "./App.scss";
@@ -20,7 +26,7 @@ function App() {
 
   return (
     <StripeContext.Provider value={stripe}>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL || "/"}>
         <Layout>
           <Routes>
             <Route path='/' element={<Navigate to="/products" />} />
@@ -29,6 +35,12 @@ function App() {
             <Route path='/products/:productId' Component={ProductDetailsPage} />
             <Route path='/products/:productId/prices/new' Component={NewProductPricePage} />
             <Route path='/products/:productId/prices/:priceId' Component={PriceDetailsPage} />
+            <Route path='/customers' Component={CustomersPage} />
+            <Route path='/customers/new' Component={NewCustomerPage} />
+            <Route path='/customers/:customerId' Component={CustomerDetailsPage} />
+            <Route path='/subscriptions' Component={SubscriptionsPage} />
+            <Route path='/subscriptions/new' Component={NewSubscriptionPage} />
+            <Route path='/subscriptions/:subscriptionId' Component={SubscriptionDetailsPage} />
           </Routes>
         </Layout>
       </BrowserRouter>

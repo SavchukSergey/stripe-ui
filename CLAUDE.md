@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-A React-based UI for managing Stripe products and prices. The application uses the Stripe Node.js SDK client-side to interact directly with Stripe's API (requires a Stripe API key stored in localStorage).
+A React-based UI for managing Stripe products, prices, customers, and subscriptions. The application uses the Stripe Node.js SDK client-side to interact directly with Stripe's API (requires a Stripe API key stored in localStorage).
 
 ## Development Commands
 
@@ -45,15 +45,37 @@ Data fetching hooks (all use useStripeApi):
 - `useProductDetails`: Fetch single product by ID
 - `usePricesList`: Fetch prices for a product
 - `usePriceDetails`: Fetch single price by ID
+- `useCustomersList`: Fetch all customers
+- `useCustomerDetails`: Fetch single customer by ID
+- `useSubscriptionsList`: Fetch all subscriptions (with expanded customer data)
+- `useSubscriptionDetails`: Fetch single subscription by ID (with expanded customer data)
 
 Mutation hooks (return callback functions):
 - `useProductCreate`: Create products
+- `useProductDelete`: Delete products (navigates to /products)
 - `usePriceCreate`: Create prices
 - `usePriceUpdate`: Update prices
+- `useCustomerCreate`: Create customers
+- `useCustomerDelete`: Delete customers (navigates to /customers)
+- `useSubscriptionCreate`: Create subscriptions
+- `useSubscriptionUpdate`: Update subscriptions
+- `useSubscriptionCancel`: Cancel subscriptions (navigates to /subscriptions)
 
 ### Routing Structure
 
-All routes defined in src/App.tsx:26-31:
+All routes defined in src/App.tsx (default route: `/subscriptions`):
+
+**Subscription Routes:**
+- `/subscriptions` - Subscriptions list page
+- `/subscriptions/new` - Create new subscription
+- `/subscriptions/:subscriptionId` - Subscription details page
+
+**Customer Routes:**
+- `/customers` - Customers list page
+- `/customers/new` - Create new customer
+- `/customers/:customerId` - Customer details page
+
+**Product Routes:**
 - `/products` - Products list page
 - `/products/new` - Create new product
 - `/products/:productId` - Product details page
@@ -64,15 +86,36 @@ All routes defined in src/App.tsx:26-31:
 
 - **Container Pattern**: Components ending in `Container` handle data fetching and state, then pass data to presentation components
   - Example: `ProductDetailsContainer` fetches data, `ProductDetails` renders it
-- **Form Components**: `ProductForm` and `PriceForm` are controlled components that receive value/onChange/onSubmit props
-- **Field Components**: Reusable form fields following a consistent pattern (TextField, PriceField, CurrencyField, LookupKeyField, CheckboxField)
+  - Pattern used for: Products, Prices, Customers, Subscriptions
+- **Form Components**: Controlled components that receive value/onChange/onSubmit props
+  - `ProductForm`: Simple form with name field
+  - `PriceForm`: Complex form with create/update modes
+  - `CustomerForm`: Form with name, email, phone, description
+  - `SubscriptionForm`: Multi-step form with customer/product/price selection
+- **Field Components**: Reusable form fields following a consistent pattern
+  - Basic: TextField, NumberField, CheckboxField
+  - Stripe-specific: PriceField, CurrencyField, LookupKeyField, IntervalField, RecurrencyField
+  - Selectors: CustomerSelectField, ProductSelector, PriceSelectField
+- **Display Components**: Specialized components for rendering Stripe data
+  - Links: ProductLink, PriceLink, CustomerLink, SubscriptionLink
+  - Spans: PriceSpan, RecurrencySpan, DateSpan, SubscriptionStatusSpan
+  - Lists: ProductsList, PricesList, CustomersList, SubscriptionsList
+  - Details: ProductDetails, PriceDetails, CustomerDetails, SubscriptionDetails
 - Each component has its own directory with .tsx and .scss files
 
 ### Key Implementation Details
 
 - **Price Form Modes**: PriceForm has "create" vs "update" mode - certain fields are read-only after creation (unit_amount, currency, active)
-- **Product ID Extraction**: Use `getProductId` utility (src/utils/getProductId.ts) to extract product ID from Stripe Price objects
+- **ID Extraction Utilities**:
+  - `getProductId` (src/utils/getProductId.ts): Extract product ID from Stripe Price objects
+  - `getCustomerId` (src/utils/getCustomerId.ts): Extract customer ID from Stripe objects
+- **Subscription Management**:
+  - `calculateMRR` (src/utils/calculateMRR.ts): Calculate monthly recurring revenue from subscription
+  - `formatSubscriptionStatus` (src/utils/formatSubscriptionStatus.ts): Human-readable status formatting
+  - SubscriptionStatusSpan has color-coded badges for different statuses (active, canceled, past_due, etc.)
 - **HTML IDs**: Use `useHtmlId` hook for generating unique form element IDs
+- **Type Safety**: Never use `any` keyword - use proper TypeScript types or `unknown` with type assertions when necessary
+- **Deleted Resources**: When checking Stripe responses that may return deleted resources, use `!("deleted" in resource)` to filter them out
 
 ### Styling
 
@@ -88,6 +131,7 @@ All routes defined in src/App.tsx:26-31:
 - Unix line endings
 - No trailing spaces
 - No multiple empty lines
+- **NEVER use the `any` keyword** - use proper types or `unknown` with type assertions
 
 ## Tech Stack
 
