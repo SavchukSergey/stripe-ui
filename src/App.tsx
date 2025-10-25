@@ -18,6 +18,8 @@ import { NewSubscriptionPage } from "./pages/NewSubscriptionPage";
 import { CouponsPage } from "./pages/CouponsPage";
 import { CouponDetailsPage } from "./pages/CouponDetailsPage";
 import { NewCouponPage } from "./pages/NewCouponPage";
+import { EventsPage } from "./pages/EventsPage";
+import { EventDetailsPage } from "./pages/EventDetailsPage";
 import { Layout } from "./components/Layout/Layout";
 
 import "./App.scss";
@@ -47,6 +49,8 @@ function App() {
             <Route path='/coupons' Component={CouponsPage} />
             <Route path='/coupons/new' Component={NewCouponPage} />
             <Route path='/coupons/:couponId' Component={CouponDetailsPage} />
+            <Route path='/events' Component={EventsPage} />
+            <Route path='/events/:eventId' Component={EventDetailsPage} />
           </Routes>
         </Layout>
       </BrowserRouter>

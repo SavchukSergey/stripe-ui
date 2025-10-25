@@ -7,6 +7,7 @@ export interface TextFieldProps {
   readonly label: string;
   readonly value: string;
   readonly layout?: FormFieldLayoutType;
+  readonly readOnly?: boolean;
   onChange(value: string): void;
 }
 
@@ -15,7 +16,7 @@ export const TextField: FC<TextFieldProps> = props => {
 
   return (
     <FormFieldLayout label={props.label} id={id} layout={props.layout}>
-      <TextInput id={id} value={props.value} onChange={props.onChange} />
+      <TextInput id={id} value={props.value} onChange={props.onChange} readOnly={props.readOnly} />
     </FormFieldLayout>
   );
 };

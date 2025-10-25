@@ -11,6 +11,7 @@ export const SideBar: FC = () => {
         <SideBarItem to="/customers">Customers</SideBarItem>
         <SideBarItem to="/products">Products</SideBarItem>
         <SideBarItem to="/coupons">Coupons</SideBarItem>
+        <SideBarItem to="/events">Events</SideBarItem>
       </ul>
     </nav>
   );
