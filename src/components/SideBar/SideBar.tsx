@@ -12,6 +12,7 @@ export const SideBar: FC = () => {
         <SideBarItem to="/products">Products</SideBarItem>
         <SideBarItem to="/coupons">Coupons</SideBarItem>
         <SideBarItem to="/invoices">Invoices</SideBarItem>
+        <SideBarItem to="/payouts">Payouts</SideBarItem>
         <SideBarItem to="/events">Events</SideBarItem>
       </ul>
     </nav>

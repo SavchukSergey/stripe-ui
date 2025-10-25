@@ -22,6 +22,8 @@ import { EventsPage } from "./pages/EventsPage";
 import { EventDetailsPage } from "./pages/EventDetailsPage";
 import { InvoicesPage } from "./pages/InvoicesPage";
 import { InvoiceDetailsPage } from "./pages/InvoiceDetailsPage";
+import { PayoutsPage } from "./pages/PayoutsPage";
+import { PayoutDetailsPage } from "./pages/PayoutDetailsPage";
 import { Layout } from "./components/Layout/Layout";
 
 import "./App.scss";
@@ -55,6 +57,8 @@ function App() {
             <Route path='/events/:eventId' Component={EventDetailsPage} />
             <Route path='/invoices' Component={InvoicesPage} />
             <Route path='/invoices/:invoiceId' Component={InvoiceDetailsPage} />
+            <Route path='/payouts' Component={PayoutsPage} />
+            <Route path='/payouts/:payoutId' Component={PayoutDetailsPage} />
           </Routes>
         </Layout>
       </BrowserRouter>
