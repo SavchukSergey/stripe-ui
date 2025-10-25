@@ -15,6 +15,9 @@ import { NewCustomerPage } from "./pages/NewCustomerPage";
 import { SubscriptionsPage } from "./pages/SubscriptionsPage";
 import { SubscriptionDetailsPage } from "./pages/SubscriptionDetailsPage";
 import { NewSubscriptionPage } from "./pages/NewSubscriptionPage";
+import { CouponsPage } from "./pages/CouponsPage";
+import { CouponDetailsPage } from "./pages/CouponDetailsPage";
+import { NewCouponPage } from "./pages/NewCouponPage";
 import { Layout } from "./components/Layout/Layout";
 
 import "./App.scss";
@@ -41,6 +44,9 @@ function App() {
             <Route path='/subscriptions' Component={SubscriptionsPage} />
             <Route path='/subscriptions/new' Component={NewSubscriptionPage} />
             <Route path='/subscriptions/:subscriptionId' Component={SubscriptionDetailsPage} />
+            <Route path='/coupons' Component={CouponsPage} />
+            <Route path='/coupons/new' Component={NewCouponPage} />
+            <Route path='/coupons/:couponId' Component={CouponDetailsPage} />
           </Routes>
         </Layout>
       </BrowserRouter>
