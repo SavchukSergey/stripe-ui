@@ -1,6 +1,17 @@
 ﻿.layout {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  min-height: 100vh;
+
+  &__topbar {
+    flex: 0 0 auto;
+  }
+
+  &__main {
+    display: flex;
+    gap: 16px;
+    flex: 1 1 auto;
+  }
 
   &__sidebar {
     flex: 0 1 256px;
