@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
 import { DateField } from "../DateField/DateField";
+import { EmailField } from "../EmailField/EmailField";
 import { RemoveButton } from "../RemoveButton/RemoveButton";
 import "./CustomerDetails.scss";
 
@@ -16,8 +17,7 @@ export const CustomerDetails: FC<CustomerDetailsProps> = props => {
       <h2>{customer.name || customer.id}</h2>
 
       <dl>
-        <dt>Email</dt>
-        <dd>{customer.email || "-"}</dd>
+        <EmailField label="Email" value={customer.email} layout="horizontal" readOnly />
 
         <dt>Phone</dt>
         <dd>{customer.phone || "-"}</dd>
