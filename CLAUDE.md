@@ -110,7 +110,7 @@ All routes defined in src/App.tsx (default route: `/subscriptions`):
   - `SubscriptionForm`: Multi-step form with customer/product/price selection
 - **Field Components**: Reusable form fields following a consistent pattern
   - Basic: TextField, NumberField, CheckboxField
-  - Stripe-specific: PriceField, CurrencyField, LookupKeyField, IntervalField, RecurrencyField
+  - Stripe-specific: PriceAmountField, CurrencyField, LookupKeyField, IntervalField, RecurrencyField
   - Selectors: CustomerSelectField, ProductSelector, PriceSelectField
 - **Display Components**: Specialized components for rendering Stripe data
   - Links: ProductLink, PriceLink, CustomerLink, SubscriptionLink

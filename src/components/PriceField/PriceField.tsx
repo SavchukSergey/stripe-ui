@@ -1,23 +1,32 @@
 import type { FC } from "react";
+import type Stripe from "stripe";
 import { useHtmlId } from "../../utils/useHtmlId";
 import { FormFieldLayout, type FormFieldLayoutType } from "../FormFieldLayout/FormFieldLayout";
-import { PriceInput } from "../PriceInput/PriceInput";
+import { PriceSpan } from "../PriceSpan/PriceSpan";
+import { PriceAmountField } from "../PriceAmountField/PriceAmountField";
+import { CurrencyField } from "../CurrencyField/CurrencyField";
 
 export interface PriceFieldProps {
-  readonly label?: string;
-  readonly value: number;
-  readonly readOnly?: boolean;
+  readonly label: string;
+  readonly price: Pick<Stripe.Price, "unit_amount" | "currency">;
   readonly layout?: FormFieldLayoutType;
-  onChange(value: number): void;
+  readonly readOnly?: boolean;
+  readonly onChange?: (newValue: Pick<Stripe.Price, "unit_amount" | "currency">) => void;
 }
 
 export const PriceField: FC<PriceFieldProps> = props => {
+  const { price, readOnly, onChange } = props;
   const id = useHtmlId();
 
   return (
-    <FormFieldLayout label={props.label || "Price"} id={id} layout={props.layout}>
-      {props.readOnly ? <div className="form-control-plaintext">{(props.value / 100).toFixed(2)}</div> :
-        <PriceInput id={id} value={props.value} onChange={props.onChange} readOnly={props.readOnly} />
+    <FormFieldLayout label={props.label} id={id} layout={props.layout}>
+      {readOnly ?
+        <div className="form-control-plaintext">
+          <PriceSpan price={props.price} />
+        </div> : <>
+          <PriceAmountField value={price.unit_amount || 0} onChange={onChange ? newVal => onChange({ ...price, unit_amount: newVal }) : undefined} readOnly={readOnly} layout="horizontal" />
+          <CurrencyField value={price.currency || ""} onChange={onChange ? newVal => onChange({ ...price, currency: newVal }) : undefined} readOnly={readOnly} layout="horizontal" />
+        </>
       }
     </FormFieldLayout>
   );

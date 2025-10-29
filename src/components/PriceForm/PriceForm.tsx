@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
 import { CheckboxField } from "../CheckboxField/CheckboxField";
-import { CurrencyField } from "../CurrencyField/CurrencyField";
 import { EntityActions } from "../EntityActions/EntityActions";
 import { FieldSet } from "../FieldsSet/FieldsSet";
 import { Form } from "../Form/Form";
@@ -30,8 +29,12 @@ export const PriceForm: FC<PriceFormProps> = props => {
       <FieldSet>
         <TextField label="Name" value={value.nickname || ""} onChange={newVal => onChange({ ...value, nickname: newVal })} layout="horizontal" />
         <LookupKeyField value={value.lookup_key || ""} onChange={newVal => onChange({ ...value, lookup_key: newVal })} layout="horizontal" />
-        <PriceField value={value.unit_amount || 0} onChange={newVal => onChange({ ...value, unit_amount: newVal })} readOnly={props.mode !== "create"} layout="horizontal" />
-        <CurrencyField value={value.currency || ""} onChange={newVal => onChange({ ...value, currency: newVal })} readOnly={props.mode !== "create"} layout="horizontal" />
+        <PriceField
+          label="Price"
+          price={{ unit_amount: value.unit_amount || 0, currency: value.currency || "" }}
+          onChange={newVal => onChange({ ...value, unit_amount: newVal.unit_amount, currency: newVal.currency })}
+          readOnly={props.mode !== "create"}
+          layout="horizontal" />
 
 
         {props.mode === "create" && (

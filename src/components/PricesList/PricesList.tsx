@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
 import { ActiveCell } from "../ActiveCell/ActiveCell";
-import { DateSpan } from "../DateSpan/DateSpan";
+import { DateCell } from "../DateCell/DateCell";
+import { PriceCell } from "../PriceCell/PriceCell";
 import { PriceLink } from "../PriceLink/PriceLink";
-import { PriceSpan } from "../PriceSpan/PriceSpan";
 import { RecurrencySpan } from "../RecurrencySpan/RecurrencySpan";
 import { Table } from "../Table/Table";
 
@@ -30,14 +30,14 @@ export const PricesList: FC<PricesListProps> = props => {
             <th>
               <PriceLink price={price} />
             </th>
-            <td><PriceSpan price={price} /></td>
+            <PriceCell unit_amount={price.unit_amount} currency={price.currency} />
             <td>
               {price.type === "one_time" ? <>One-time</> :
                 <RecurrencySpan recurring={price.recurring!} />}
             </td>
             <td>{price.lookup_key || "-"}</td>
             <ActiveCell value={price.active} />
-            <td><DateSpan value={price.created} /></td>
+            <DateCell value={price.created} />
           </tr>
         ))}
       </tbody>

@@ -7,7 +7,7 @@ export interface CheckboxFieldProps {
   readonly label: string;
   readonly value: boolean;
   readonly layout?: FormFieldLayoutType;
-  onChange(value: boolean): void;
+  onChange?(value: boolean): void;
   readonly readOnly?: boolean;
 }
 
@@ -16,7 +16,9 @@ export const CheckboxField: FC<CheckboxFieldProps> = props => {
 
   return (
     <FormFieldLayout label={props.label} id={id} layout={props.layout}>
-      <CheckboxInput id={id} value={props.value} onChange={props.onChange} readOnly={props.readOnly} />
+      {props.readOnly ? <div className="form-control-plaintext">{props.value ? "Yes" : "No"}</div> :
+        <CheckboxInput id={id} value={props.value} onChange={props.onChange} readOnly={props.readOnly} />
+      }
     </FormFieldLayout>
   );
 };

@@ -8,7 +8,7 @@ export interface TextFieldProps {
   readonly value: string;
   readonly layout?: FormFieldLayoutType;
   readonly readOnly?: boolean;
-  onChange(value: string): void;
+  onChange?(value: string): void;
 }
 
 export const TextField: FC<TextFieldProps> = props => {

@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
-import { DateSpan } from "../DateSpan/DateSpan";
+import { DateCell } from "../DateCell/DateCell";
 import { EventLink } from "../EventLink/EventLink";
 import { EventTypeSpan } from "../EventTypeSpan/EventTypeSpan";
 import { Table } from "../Table/Table";
@@ -30,9 +30,7 @@ export const EventsList: FC<EventsListProps> = props => {
               <td>
                 <EventTypeSpan type={event.type} />
               </td>
-              <td>
-                <DateSpan value={event.created} />
-              </td>
+              <DateCell value={event.created} />
               <td>
                 {event.api_version || "N/A"}
               </td>

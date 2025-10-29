@@ -6,7 +6,7 @@ import { FormFieldLayout, type FormFieldLayoutType } from "../FormFieldLayout/Fo
 export interface CurrencyFieldProps {
   readonly label?: string;
   readonly value: string;
-  onChange(value: string): void;
+  onChange?(value: string): void;
   readonly readOnly?: boolean;
   readonly layout?: FormFieldLayoutType;
 }

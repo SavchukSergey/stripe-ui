@@ -2,11 +2,13 @@ import type { FC } from "react";
 import type Stripe from "stripe";
 import { TextField } from "../TextField/TextField";
 import { CheckboxField } from "../CheckboxField/CheckboxField";
+import { DateField } from "../DateField/DateField";
 import { FieldSet } from "../FieldsSet/FieldsSet";
 import { FormFieldLayout } from "../FormFieldLayout/FormFieldLayout";
-import { CustomerLink } from "../CustomerLink/CustomerLink";
+import { CustomerSelectField } from "../CustomerSelectField/CustomerSelectField";
 import { InvoiceStatusSpan } from "../InvoiceStatusSpan/InvoiceStatusSpan";
-import { PriceSpan } from "../PriceSpan/PriceSpan";
+import { PriceField } from "../PriceField/PriceField";
+import { PriceCell } from "../PriceCell/PriceCell";
 import { Table } from "../Table/Table";
 import { useHtmlId } from "../../utils/useHtmlId";
 
@@ -16,18 +18,7 @@ export interface InvoiceDetailsProps {
 
 export const InvoiceDetails: FC<InvoiceDetailsProps> = props => {
   const { invoice } = props;
-  const customerLabelId = useHtmlId();
   const statusId = useHtmlId();
-  const amountDueId = useHtmlId();
-  const amountPaidId = useHtmlId();
-  const amountRemainingId = useHtmlId();
-  const createdId = useHtmlId();
-  const dueDateId = useHtmlId();
-
-  const formatDate = (timestamp: number | null) => {
-    if (!timestamp) return "N/A";
-    return new Date(timestamp * 1000).toLocaleDateString();
-  };
 
   return (
     <section>
@@ -37,8 +28,7 @@ export const InvoiceDetails: FC<InvoiceDetailsProps> = props => {
         <TextField
           label="Invoice ID"
           value={invoice.id}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
@@ -46,17 +36,17 @@ export const InvoiceDetails: FC<InvoiceDetailsProps> = props => {
           <TextField
             label="Invoice Number"
             value={invoice.number}
-            onChange={() => {}}
-            readOnly={true}
+            readOnly
             layout="horizontal"
           />
         )}
 
-        <FormFieldLayout label="Customer" id={customerLabelId} layout="horizontal">
-          <div className="form-control-plaintext">
-            <CustomerLink customer={invoice.customer} />
-          </div>
-        </FormFieldLayout>
+        <CustomerSelectField
+          label="Customer"
+          value={invoice.customer}
+          readOnly
+          layout="horizontal"
+        />
 
         <FormFieldLayout label="Status" id={statusId} layout="horizontal">
           <div className="form-control-plaintext">
@@ -64,39 +54,47 @@ export const InvoiceDetails: FC<InvoiceDetailsProps> = props => {
           </div>
         </FormFieldLayout>
 
-        <FormFieldLayout label="Amount Due" id={amountDueId} layout="horizontal">
-          <div className="form-control-plaintext">
-            <PriceSpan price={{ unit_amount: invoice.amount_due, currency: invoice.currency }} />
-          </div>
-        </FormFieldLayout>
+        <PriceField
+          label="Amount Due"
+          price={{ unit_amount: invoice.amount_due, currency: invoice.currency }}
+          layout="horizontal"
+          readOnly
+        />
 
-        <FormFieldLayout label="Amount Paid" id={amountPaidId} layout="horizontal">
-          <div className="form-control-plaintext">
-            <PriceSpan price={{ unit_amount: invoice.amount_paid, currency: invoice.currency }} />
-          </div>
-        </FormFieldLayout>
+        <PriceField
+          label="Amount Paid"
+          price={{ unit_amount: invoice.amount_paid, currency: invoice.currency }}
+          layout="horizontal"
+          readOnly
+        />
 
-        <FormFieldLayout label="Amount Remaining" id={amountRemainingId} layout="horizontal">
-          <div className="form-control-plaintext">
-            <PriceSpan price={{ unit_amount: invoice.amount_remaining, currency: invoice.currency }} />
-          </div>
-        </FormFieldLayout>
+        <PriceField
+          label="Amount Remaining"
+          price={{ unit_amount: invoice.amount_remaining, currency: invoice.currency }}
+          layout="horizontal"
+          readOnly
+        />
 
-        <FormFieldLayout label="Created" id={createdId} layout="horizontal">
-          <div className="form-control-plaintext">{formatDate(invoice.created)}</div>
-        </FormFieldLayout>
+        <DateField
+          label="Created"
+          value={invoice.created}
+          readOnly
+          layout="horizontal"
+        />
 
         {invoice.due_date && (
-          <FormFieldLayout label="Due Date" id={dueDateId} layout="horizontal">
-            <div className="form-control-plaintext">{formatDate(invoice.due_date)}</div>
-          </FormFieldLayout>
+          <DateField
+            label="Due Date"
+            value={invoice.due_date}
+            readOnly
+            layout="horizontal"
+          />
         )}
 
         <CheckboxField
           label="Paid"
           value={invoice.status === "paid"}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
@@ -104,8 +102,7 @@ export const InvoiceDetails: FC<InvoiceDetailsProps> = props => {
           <TextField
             label="Description"
             value={invoice.description}
-            onChange={() => {}}
-            readOnly={true}
+            readOnly
             layout="horizontal"
           />
         )}
@@ -129,12 +126,8 @@ export const InvoiceDetails: FC<InvoiceDetailsProps> = props => {
               <tr key={line.id}>
                 <td>{line.description || "-"}</td>
                 <td>{quantity}</td>
-                <td>
-                  <PriceSpan price={{ unit_amount: unitAmount, currency: invoice.currency }} />
-                </td>
-                <td>
-                  <PriceSpan price={{ unit_amount: line.amount, currency: invoice.currency }} />
-                </td>
+                <PriceCell unit_amount={unitAmount} currency={invoice.currency} />
+                <PriceCell unit_amount={line.amount} currency={invoice.currency} />
               </tr>
             );
           })}

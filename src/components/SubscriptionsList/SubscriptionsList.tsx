@@ -2,7 +2,7 @@ import type { FC } from "react";
 import type Stripe from "stripe";
 import { CustomerLink } from "../CustomerLink/CustomerLink";
 import { DateSpan } from "../DateSpan/DateSpan";
-import { PriceSpan } from "../PriceSpan/PriceSpan";
+import { PriceCell } from "../PriceCell/PriceCell";
 import { SubscriptionLink } from "../SubscriptionLink/SubscriptionLink";
 import { SubscriptionStatusSpan } from "../SubscriptionStatusSpan/SubscriptionStatusSpan";
 import { Table } from "../Table/Table";
@@ -41,9 +41,7 @@ export const SubscriptionsList: FC<SubscriptionsListProps> = props => {
               <td>
                 <SubscriptionStatusSpan status={subscription.status} />
               </td>
-              <td>
-                <PriceSpan price={{ unit_amount: mrr, currency }} />
-              </td>
+              <PriceCell unit_amount={mrr} currency={currency} />
               <td>
                 <DateSpan value={(subscription as unknown as { current_period_start?: number }).current_period_start || 0} /> - <DateSpan value={(subscription as unknown as { current_period_end?: number }).current_period_end || 0} />
               </td>

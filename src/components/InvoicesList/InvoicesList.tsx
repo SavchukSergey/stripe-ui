@@ -1,10 +1,10 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
 import { CustomerLink } from "../CustomerLink/CustomerLink";
-import { DateSpan } from "../DateSpan/DateSpan";
+import { DateCell } from "../DateCell/DateCell";
 import { InvoiceLink } from "../InvoiceLink/InvoiceLink";
 import { InvoiceStatusSpan } from "../InvoiceStatusSpan/InvoiceStatusSpan";
-import { PriceSpan } from "../PriceSpan/PriceSpan";
+import { PriceCell } from "../PriceCell/PriceCell";
 import { Table } from "../Table/Table";
 
 export interface InvoicesListProps {
@@ -37,15 +37,9 @@ export const InvoicesList: FC<InvoicesListProps> = props => {
               <td>
                 <InvoiceStatusSpan status={invoice.status} />
               </td>
-              <td>
-                <PriceSpan price={{ unit_amount: invoice.amount_due, currency: invoice.currency }} />
-              </td>
-              <td>
-                {invoice.due_date ? <DateSpan value={invoice.due_date} /> : "-"}
-              </td>
-              <td>
-                <DateSpan value={invoice.created} />
-              </td>
+              <PriceCell unit_amount={invoice.amount_due} currency={invoice.currency} />
+              <DateCell value={invoice.due_date} />
+              <DateCell value={invoice.created} />
             </tr>
           );
         })}

@@ -4,7 +4,7 @@ import { TextInput } from "../TextInput/TextInput";
 export interface CurrencyInputProps {
   readonly id?: string;
   readonly value: string;
-  onChange(value: string): void;
+  onChange?(value: string): void;
   readonly readOnly?: boolean;
 }
 

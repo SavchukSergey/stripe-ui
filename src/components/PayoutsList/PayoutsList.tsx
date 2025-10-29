@@ -1,9 +1,9 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
-import { DateSpan } from "../DateSpan/DateSpan";
+import { DateCell } from "../DateCell/DateCell";
 import { PayoutLink } from "../PayoutLink/PayoutLink";
 import { PayoutStatusSpan } from "../PayoutStatusSpan/PayoutStatusSpan";
-import { PriceSpan } from "../PriceSpan/PriceSpan";
+import { PriceCell } from "../PriceCell/PriceCell";
 import { Table } from "../Table/Table";
 
 export interface PayoutsListProps {
@@ -30,19 +30,13 @@ export const PayoutsList: FC<PayoutsListProps> = props => {
               <td>
                 <PayoutLink payout={payout} />
               </td>
-              <td>
-                <PriceSpan price={{ unit_amount: payout.amount, currency: payout.currency }} />
-              </td>
+              <PriceCell unit_amount={payout.amount} currency={payout.currency} />
               <td>
                 <PayoutStatusSpan status={payout.status} />
               </td>
               <td>{payout.method || "-"}</td>
-              <td>
-                {payout.arrival_date ? <DateSpan value={payout.arrival_date} /> : "-"}
-              </td>
-              <td>
-                <DateSpan value={payout.created} />
-              </td>
+              <DateCell value={payout.arrival_date} />
+              <DateCell value={payout.created} />
             </tr>
           );
         })}

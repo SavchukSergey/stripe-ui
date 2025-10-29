@@ -2,10 +2,11 @@ import type { FC } from "react";
 import type Stripe from "stripe";
 import { TextField } from "../TextField/TextField";
 import { CheckboxField } from "../CheckboxField/CheckboxField";
+import { DateField } from "../DateField/DateField";
 import { FieldSet } from "../FieldsSet/FieldsSet";
 import { FormFieldLayout } from "../FormFieldLayout/FormFieldLayout";
 import { PayoutStatusSpan } from "../PayoutStatusSpan/PayoutStatusSpan";
-import { PriceSpan } from "../PriceSpan/PriceSpan";
+import { PriceField } from "../PriceField/PriceField";
 import { useHtmlId } from "../../utils/useHtmlId";
 
 export interface PayoutDetailsProps {
@@ -15,14 +16,6 @@ export interface PayoutDetailsProps {
 export const PayoutDetails: FC<PayoutDetailsProps> = props => {
   const { payout } = props;
   const statusId = useHtmlId();
-  const amountId = useHtmlId();
-  const createdId = useHtmlId();
-  const arrivalDateId = useHtmlId();
-
-  const formatDate = (timestamp: number | null) => {
-    if (!timestamp) return "N/A";
-    return new Date(timestamp * 1000).toLocaleDateString();
-  };
 
   return (
     <section>
@@ -32,8 +25,7 @@ export const PayoutDetails: FC<PayoutDetailsProps> = props => {
         <TextField
           label="Payout ID"
           value={payout.id}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
@@ -43,43 +35,47 @@ export const PayoutDetails: FC<PayoutDetailsProps> = props => {
           </div>
         </FormFieldLayout>
 
-        <FormFieldLayout label="Amount" id={amountId} layout="horizontal">
-          <div className="form-control-plaintext">
-            <PriceSpan price={{ unit_amount: payout.amount, currency: payout.currency }} />
-          </div>
-        </FormFieldLayout>
+        <PriceField
+          label="Amount"
+          price={{ unit_amount: payout.amount, currency: payout.currency }}
+          readOnly
+          layout="horizontal"
+        />
 
         <TextField
           label="Method"
           value={payout.method || "standard"}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
         <TextField
           label="Type"
           value={payout.type}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
-        <FormFieldLayout label="Created" id={createdId} layout="horizontal">
-          <div className="form-control-plaintext">{formatDate(payout.created)}</div>
-        </FormFieldLayout>
+        <DateField
+          label="Created"
+          value={payout.created}
+          readOnly
+          layout="horizontal"
+        />
 
         {payout.arrival_date && (
-          <FormFieldLayout label="Arrival Date" id={arrivalDateId} layout="horizontal">
-            <div className="form-control-plaintext">{formatDate(payout.arrival_date)}</div>
-          </FormFieldLayout>
+          <DateField
+            label="Arrival Date"
+            value={payout.arrival_date}
+            readOnly
+            layout="horizontal"
+          />
         )}
 
         <CheckboxField
           label="Automatic"
           value={payout.automatic}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
@@ -87,8 +83,7 @@ export const PayoutDetails: FC<PayoutDetailsProps> = props => {
           <TextField
             label="Description"
             value={payout.description}
-            onChange={() => {}}
-            readOnly={true}
+            readOnly
             layout="horizontal"
           />
         )}
@@ -97,8 +92,7 @@ export const PayoutDetails: FC<PayoutDetailsProps> = props => {
           <TextField
             label="Statement Descriptor"
             value={payout.statement_descriptor}
-            onChange={() => {}}
-            readOnly={true}
+            readOnly
             layout="horizontal"
           />
         )}
@@ -107,8 +101,7 @@ export const PayoutDetails: FC<PayoutDetailsProps> = props => {
           <TextField
             label="Failure Message"
             value={payout.failure_message}
-            onChange={() => {}}
-            readOnly={true}
+            readOnly
             layout="horizontal"
           />
         )}

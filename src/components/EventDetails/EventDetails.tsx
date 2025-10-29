@@ -2,9 +2,8 @@ import type { FC } from "react";
 import type Stripe from "stripe";
 import { TextField } from "../TextField/TextField";
 import { CheckboxField } from "../CheckboxField/CheckboxField";
+import { DateField } from "../DateField/DateField";
 import { FieldSet } from "../FieldsSet/FieldsSet";
-import { FormFieldLayout } from "../FormFieldLayout/FormFieldLayout";
-import { useHtmlId } from "../../utils/useHtmlId";
 
 export interface EventDetailsProps {
   readonly event: Stripe.Event;
@@ -12,11 +11,6 @@ export interface EventDetailsProps {
 
 export const EventDetails: FC<EventDetailsProps> = props => {
   const { event } = props;
-  const createdId = useHtmlId();
-
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp * 1000).toLocaleString();
-  };
 
   return (
     <section>
@@ -26,36 +20,35 @@ export const EventDetails: FC<EventDetailsProps> = props => {
         <TextField
           label="Event ID"
           value={event.id}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
         <TextField
           label="Type"
           value={event.type}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
-        <FormFieldLayout label="Created" id={createdId} layout="horizontal">
-          <div className="form-control-plaintext">{formatDate(event.created)}</div>
-        </FormFieldLayout>
+        <DateField
+          label="Created"
+          value={event.created}
+          readOnly
+          layout="horizontal"
+        />
 
         <TextField
           label="API Version"
           value={event.api_version || "N/A"}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
         <CheckboxField
           label="Livemode"
           value={event.livemode}
-          onChange={() => {}}
-          readOnly={true}
+          readOnly
           layout="horizontal"
         />
 
@@ -63,8 +56,7 @@ export const EventDetails: FC<EventDetailsProps> = props => {
           <TextField
             label="Request ID"
             value={typeof event.request === "string" ? event.request : event.request.id || ""}
-            onChange={() => {}}
-            readOnly={true}
+            readOnly
             layout="horizontal"
           />
         )}

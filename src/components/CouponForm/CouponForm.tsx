@@ -2,6 +2,7 @@ import { type FC, useState } from "react";
 import type Stripe from "stripe";
 import { CheckboxField } from "../CheckboxField/CheckboxField";
 import { CurrencyField } from "../CurrencyField/CurrencyField";
+import { DateField } from "../DateField/DateField";
 import { EntityActions } from "../EntityActions/EntityActions";
 import { FieldSet } from "../FieldsSet/FieldsSet";
 import { Form } from "../Form/Form";
@@ -150,8 +151,8 @@ export const CouponForm: FC<CouponFormProps> = props => {
         />
 
         {useRedeemBy && (
-          <NumberField
-            label="Redeem By (Unix timestamp)"
+          <DateField
+            label="Redeem By"
             value={value.redeem_by || 0}
             onChange={newVal => onChange({ ...value, redeem_by: newVal })}
             layout="horizontal"

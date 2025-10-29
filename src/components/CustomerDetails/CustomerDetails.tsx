@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
+import { DateField } from "../DateField/DateField";
 import { RemoveButton } from "../RemoveButton/RemoveButton";
-import { DateSpan } from "../DateSpan/DateSpan";
 import "./CustomerDetails.scss";
 
 export interface CustomerDetailsProps {
@@ -25,8 +25,7 @@ export const CustomerDetails: FC<CustomerDetailsProps> = props => {
         <dt>Description</dt>
         <dd>{customer.description || "-"}</dd>
 
-        <dt>Created</dt>
-        <dd><DateSpan value={customer.created} /></dd>
+        <DateField label="Created" value={customer.created} layout="horizontal" readOnly />
       </dl>
 
       {props.onRemove && <RemoveButton label="Remove customer" onClick={props.onRemove} />}

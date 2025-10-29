@@ -3,7 +3,7 @@ import type { FC } from "react";
 export interface CheckboxInputProps {
   readonly id?: string;
   readonly value: boolean;
-  onChange(value: boolean): void;
+  onChange?(value: boolean): void;
   readonly readOnly?: boolean;
 }
 
@@ -13,7 +13,7 @@ export const CheckboxInput: FC<CheckboxInputProps> = props => {
       id={props.id}
       className="form-check-input"
       type="checkbox" checked={props.value}
-      onChange={(ev => props.onChange(ev.target.checked))}
+      onChange={(ev => props.onChange ? props.onChange(ev.target.checked) : undefined)}
       readOnly={props.readOnly}
       disabled={props.readOnly}
     />

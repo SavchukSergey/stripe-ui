@@ -1,11 +1,15 @@
 import type { FC } from "react";
 import type Stripe from "stripe";
-import { RemoveButton } from "../RemoveButton/RemoveButton";
-import { NumberField } from "../NumberField/NumberField";
-import { FieldSet } from "../FieldsSet/FieldsSet";
-import { CouponSpan } from "../CouponSpan/CouponSpan";
+import { useProductsList } from "../../hooks/useProductsList";
 import { useHtmlId } from "../../utils/useHtmlId";
+import { CheckboxField } from "../CheckboxField/CheckboxField";
+import { CouponSpan } from "../CouponSpan/CouponSpan";
+import { DateField } from "../DateField/DateField";
+import { FieldSet } from "../FieldsSet/FieldsSet";
 import { FormFieldLayout } from "../FormFieldLayout/FormFieldLayout";
+import { NumberField } from "../NumberField/NumberField";
+import { ProductsList } from "../ProductsList/ProductsList";
+import { RemoveButton } from "../RemoveButton/RemoveButton";
 import "./CouponDetails.scss";
 
 export interface CouponDetailsProps {
@@ -19,9 +23,14 @@ export const CouponDetails: FC<CouponDetailsProps> = props => {
   const nameId = useHtmlId();
   const discountId = useHtmlId();
   const durationId = useHtmlId();
-  const expiresId = useHtmlId();
-  const validId = useHtmlId();
-  const createdId = useHtmlId();
+
+  const productsResponse = useProductsList();
+  const allProducts = productsResponse?.data || [];
+
+  const applicableProductIds = coupon.applies_to?.products;
+  const applicableProducts = applicableProductIds
+    ? allProducts.filter((product: Stripe.Product) => applicableProductIds.includes(product.id))
+    : allProducts;
 
   const formatDuration = () => {
     if (coupon.duration === "forever") {
@@ -34,10 +43,6 @@ export const CouponDetails: FC<CouponDetailsProps> = props => {
       return `${coupon.duration_in_months || 0} months`;
     }
     return "-";
-  };
-
-  const formatDate = (timestamp: number) => {
-    return new Date(timestamp * 1000).toLocaleDateString();
   };
 
   return (
@@ -66,33 +71,48 @@ export const CouponDetails: FC<CouponDetailsProps> = props => {
         <NumberField
           label="Times Redeemed"
           value={coupon.times_redeemed || 0}
-          onChange={() => {}}
-          readOnly={true}
+          onChange={() => { }}
+          readOnly
           layout="horizontal"
         />
 
         <NumberField
           label="Max Redemptions"
           value={coupon.max_redemptions || 0}
-          onChange={() => {}}
-          readOnly={true}
+          onChange={() => { }}
+          readOnly
           layout="horizontal"
         />
 
         {coupon.redeem_by && (
-          <FormFieldLayout label="Expires" id={expiresId} layout="horizontal">
-            <div className="form-control-plaintext">{formatDate(coupon.redeem_by)}</div>
-          </FormFieldLayout>
+          <DateField
+            label="Expires"
+            value={coupon.redeem_by}
+            readOnly
+            layout="horizontal"
+          />
         )}
 
-        <FormFieldLayout label="Valid" id={validId} layout="horizontal">
-          <div className="form-control-plaintext">{coupon.valid ? "Yes" : "No"}</div>
-        </FormFieldLayout>
+        <CheckboxField label="Valid" layout="horizontal" value={coupon.valid} />
 
-        <FormFieldLayout label="Created" id={createdId} layout="horizontal">
-          <div className="form-control-plaintext">{formatDate(coupon.created)}</div>
-        </FormFieldLayout>
+        <DateField
+          label="Created"
+          value={coupon.created}
+          readOnly
+          layout="horizontal"
+        />
       </FieldSet>
+
+      {applicableProducts.length > 0 && (
+        <div className="coupon-details__products">
+          <h3>
+            {applicableProductIds
+              ? "Applicable Products"
+              : "Applicable Products (All)"}
+          </h3>
+          <ProductsList products={applicableProducts} />
+        </div>
+      )}
 
       {props.onRemove && <RemoveButton label="Remove coupon" onClick={props.onRemove} />}
     </section>

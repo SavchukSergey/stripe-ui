@@ -6,7 +6,7 @@ import { getCustomerId } from "../../utils/getCustomerId";
 export interface CustomerInputProps {
   readonly id?: string;
   readonly value: string | Stripe.Customer | Stripe.DeletedCustomer | null;
-  onChange(value: string): void;
+  onChange?(value: string): void;
   readonly readOnly?: boolean;
 }
 
@@ -15,7 +15,7 @@ export const CustomerInput: FC<CustomerInputProps> = props => {
   const customerId = props.value ? getCustomerId(props.value) : "";
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    props.onChange(e.target.value);
+    props.onChange && props.onChange(e.target.value);
   };
 
   return (
