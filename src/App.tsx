@@ -25,6 +25,9 @@ import { InvoicesPage } from "./pages/InvoicesPage";
 import { InvoiceDetailsPage } from "./pages/InvoiceDetailsPage";
 import { PayoutsPage } from "./pages/PayoutsPage";
 import { PayoutDetailsPage } from "./pages/PayoutDetailsPage";
+import { PaymentIntentsPage } from "./pages/PaymentIntentsPage";
+import { PaymentIntentDetailsPage } from "./pages/PaymentIntentDetailsPage";
+import { NewPaymentIntentPage } from "./pages/NewPaymentIntentPage";
 import { Layout } from "./components/Layout/Layout";
 
 import "./App.scss";
@@ -60,6 +63,9 @@ function App() {
             <Route path='/invoices/:invoiceId' Component={InvoiceDetailsPage} />
             <Route path='/payouts' Component={PayoutsPage} />
             <Route path='/payouts/:payoutId' Component={PayoutDetailsPage} />
+            <Route path='/payment-intents' Component={PaymentIntentsPage} />
+            <Route path='/payment-intents/new' Component={NewPaymentIntentPage} />
+            <Route path='/payment-intents/:paymentIntentId' Component={PaymentIntentDetailsPage} />
           </Routes>
         </Layout>
       </HashRouter>

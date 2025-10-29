@@ -1,14 +1,15 @@
 import type { FC } from "react";
 
+import { Link } from "../Link/Link";
 import "./TopBar.scss";
 
 export const TopBar: FC = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light topbar">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link className="navbar-brand" to="/">
           Stripe UI
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -23,19 +24,24 @@ export const TopBar: FC = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a className="nav-link" href="/subscriptions">
+              <Link className="nav-link" to="/subscriptions">
                 Subscriptions
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/customers">
+              <Link className="nav-link" to="/customers">
                 Customers
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/products">
+              <Link className="nav-link" to="/products">
                 Products
-              </a>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/payment-intents">
+                Payment Intents
+              </Link>
             </li>
           </ul>
         </div>

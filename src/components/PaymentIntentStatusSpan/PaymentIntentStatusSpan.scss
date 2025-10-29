@@ -1,0 +1,30 @@
+.payment-intent-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &--succeeded {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  &--processing {
+    background-color: #d1ecf1;
+    color: #0c5460;
+  }
+
+  &--requires_action,
+  &--requires_capture,
+  &--requires_confirmation {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  &--canceled,
+  &--requires_payment_method {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+}
