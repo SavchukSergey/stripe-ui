@@ -1,9 +1,10 @@
 import { useMemo } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import Stripe from "stripe";
 import { StripeSettings } from "./components/StripeSettings/StripeSettings";
 import { StripeContext } from "./context/StripeContext";
 import { useStripeKey } from "./hooks/useStripeKey";
+import { HomePage } from "./pages/HomePage";
 import { NewProductPage } from "./pages/NewProductPage";
 import { NewProductPricePage } from "./pages/NewProductPricePage";
 import { PriceDetailsPage } from "./pages/PriceDetailsPage";
@@ -35,10 +36,10 @@ function App() {
 
   return (
     <StripeContext.Provider value={stripe}>
-      <BrowserRouter basename={import.meta.env.BASE_URL || "/"}>
+      <HashRouter basename={import.meta.env.BASE_URL || "/"}>
         <Layout>
           <Routes>
-            <Route path='/' element={<Navigate to="/products" />} />
+            <Route path='/' Component={HomePage} />
             <Route path='/products' Component={ProductsPage} />
             <Route path='/products/new' Component={NewProductPage} />
             <Route path='/products/:productId' Component={ProductDetailsPage} />
@@ -61,7 +62,7 @@ function App() {
             <Route path='/payouts/:payoutId' Component={PayoutDetailsPage} />
           </Routes>
         </Layout>
-      </BrowserRouter>
+      </HashRouter>
       <StripeSettings />
     </StripeContext.Provider>
   );
