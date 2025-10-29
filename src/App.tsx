@@ -36,7 +36,7 @@ function App() {
 
   return (
     <StripeContext.Provider value={stripe}>
-      <HashRouter basename={import.meta.env.BASE_URL || "/"}>
+      <HashRouter>
         <Layout>
           <Routes>
             <Route path='/' Component={HomePage} />
